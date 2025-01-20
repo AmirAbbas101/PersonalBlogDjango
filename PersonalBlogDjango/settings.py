@@ -41,9 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'allauth',
+    'allauth.socialaccount',
+    'allauth.account',
+    'allauth.socialaccount.providers.google',
     'tailwind',
     'theme',
     'django_browser_reload',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'PersonalBlogDjango.urls'
@@ -74,6 +80,27 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '53276194144-3qp2qv2njebpclekrlta2rorro1us2it.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
+
 
 WSGI_APPLICATION = 'PersonalBlogDjango.wsgi.application'
 
@@ -140,3 +167,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 from shutil import which
 NPM_BIN_PATH = which("npm")
+
+# allauth config params
+SITE_ID = 1
+LOGIN_REDIRECT_URL = 'home'
